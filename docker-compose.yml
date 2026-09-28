@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: onion
+      POSTGRES_PASSWORD: onion
+      POSTGRES_DB: onion_qa
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U onion"]
+      interval: 5s
+      retries: 10
+  api:
+    build: .
+    depends_on:
+      db: {condition: service_healthy}
+    env_file: [.env]
+    environment:
+      DATABASE_URL: postgresql+psycopg2://onion:onion@db:5432/onion_qa
+    ports: ["8000:8000"]
+    volumes:
+      - storage:/data/storage
+      - ./backend/models:/app/backend/models
+volumes:
+  pgdata:
+  storage:
