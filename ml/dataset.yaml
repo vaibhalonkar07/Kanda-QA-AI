@@ -1,0 +1,11 @@
+# YOLO segmentation dataset layout (Ultralytics format)
+path: datasets/onion          # relative to this file's folder
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: onion      # every bulb, outlined
+  1: rot        # black / soft decay regions
+  2: damage     # cuts, cracks, bruises
+  3: sprout     # green shoots
+  4: stain      # abnormal discolouration / staining
